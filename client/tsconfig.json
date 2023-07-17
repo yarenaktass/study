@@ -1,0 +1,26 @@
+{  // tsconfig.json dosyası, bir React projesi için yaygın olarak kullanılan yapılandırmalara sahip olabilir. TypeScript derleyicisinin projeyi nasıl işleyeceğini ve derleyeceğini belirtir.
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true, //JavaScript dosyalarının (.js) TypeScript projesinde kullanılmasına izin verir. Bu sayede TypeScript ile olmayan kodu projeye dahil etmek mümkün olur.
+    "skipLibCheck": true, //Derleme sırasında .d.ts uzantılı tanımlama dosyalarının kontrol edilmesini devre dışı bırakır. Bu, derleme süresini hızlandırabilir.
+    "esModuleInterop": true,//CommonJS modül sisteminden ES modül sistemine geçiş yaparken uyumluluğu sağlamak için gerekli düzenlemeleri yapar.
+    "allowSyntheticDefaultImports": true,
+    "strict": true, //Katı TypeScript denetimini etkinleştirir. Hatalar ve uyum sorunları daha fazla kontrol edilir.
+    "forceConsistentCasingInFileNames": true,//Dosya adlarının büyük-küçük harf tutarlılığını denetler.
+    "noFallthroughCasesInSwitch": true, //switch ifadelerinde break olmadan geçiş yapmanın hatalı olduğunu belirtir.
+    "module": "esnext", //Derlenmiş JavaScript modüllerinin hangi modül sistemini hedeflediğini belirtir. Bu durumda, ES modül sistemini kullanır.
+    "moduleResolution": "node", //Modül arama sürecinin nasıl gerçekleştirileceğini belirtir. Bu örnekte, Node.js modül çözümleyicisi kullanılır.
+    "resolveJsonModule": true,//SON dosyalarını modül olarak içe aktarmaya izin verir.
+    "isolatedModules": true,//Modüllerin izole bir şekilde derlenmesini sağlar. Bu, her dosyanın kendi kapsamında derlendiği anlamına gelir.
+    "noEmit": true,//Çıktı oluşturulmasını devre dışı bırakır. Bu, TypeScript kodunun doğrudan çalıştırılmadan önce JavaScript'e derlenmesini önler.
+    "jsx": "react-jsx"//React bileşenlerinin JSX sözdizimi kullanılarak derlenmesini sağlar.
+  },
+  "include": [
+    "src"
+  ]
+}
