@@ -4,6 +4,7 @@ import Header from './Header';
 import { ThemeProvider } from '@emotion/react';
 import { pink, purple } from '@mui/material/colors';
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -26,7 +27,7 @@ function App() {
     <CssBaseline/>
      <Header darkMode={darkMode} handleThemeChange={handleThemeChange}/>
      <Container>
-     <Catalog />
+     <Outlet />
      </Container> 
     </ThemeProvider>
   );
@@ -34,4 +35,4 @@ function App() {
 
 export default App;
 
-// Container bileşeni, responsif tasarım prensiplerini takip ederek farklı ekran boyutlarına uyum sağlar. Sayfanızın içeriği büyüdükçe veya küçüldükçe, Container bileşeni otomatik olarak uygun bir genişlikte kalır ve içeriği merkezler.
+// Container bileşeni, responsive tasarım prensiplerini takip ederek farklı ekran boyutlarına uyum sağlar. Sayfanızın içeriği büyüdükçe veya küçüldükçe, Container bileşeni otomatik olarak uygun bir genişlikte kalır ve içeriği merkezler.
