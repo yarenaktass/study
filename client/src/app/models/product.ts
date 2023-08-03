@@ -7,6 +7,14 @@ export interface Product {
         type?: string
         quantityInStock?: number
         brand: string
-      
-      
+}
+
+
+export interface ProductParams {
+        orderBy: string;
+        searchTerm?:string;
+        types:string[];
+        brands: string[];
+        pageNumber: number;
+        pageSize:number;
 }

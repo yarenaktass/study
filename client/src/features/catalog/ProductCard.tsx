@@ -5,7 +5,7 @@ import { useState } from "react";
 import LoadingButton from '@mui/lab/LoadingButton';
 import { currencyFormat } from "../../app/util/util";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { addBasketItemAsync, setBasket } from "../basket/BasketSlice";
+import { addBasketItemAsync} from "../basket/BasketSlice";
 
 
 interface Props{
