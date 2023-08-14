@@ -21,7 +21,7 @@ function getAxiosParams(productParams: ProductParams) {
     params.append('orderBy', productParams.orderBy);
     if (productParams.searchTerm) params.append('searchTerm', productParams.searchTerm);
     if (productParams.types.length > 0) params.append('types', productParams.types.toString());
-    if (productParams.brands.length > 0) params.append('brands', productParams.brands.toString());
+    if (productParams.brands.length  > 0) params.append('brands', productParams.brands.toString());
     return params;
 }
 
@@ -34,7 +34,9 @@ export const fetchProductsAsync = createAsyncThunk<Product[], void, {state: Root
         const params = getAxiosParams(thunkAPI.getState().catalog.productParams);
         try {
             const response =  await agent.Catalog.list(params);
+           
             thunkAPI.dispatch(setMetaData(response.metaData));
+      
             return response.items;
         } catch(error:any) {
             return thunkAPI.rejectWithValue({error: error.data})
@@ -90,6 +92,7 @@ export const catalogSlice = createSlice ({
         setProductParams: (state, action) => {
             state.productsLoaded = false;
             state.productParams = {...state.productParams, ...action.payload, pageNumber: 1}
+         
         },
         setPageNumber: (state, action) => {
             state.productsLoaded = false;
@@ -97,6 +100,7 @@ export const catalogSlice = createSlice ({
         },
         setMetaData: (state, action) => {
             state.metaData = action.payload;
+          
         },
         resetProductParams:(state) =>{
             state.productParams = initParams();
@@ -114,6 +118,8 @@ export const catalogSlice = createSlice ({
         builder.addCase(fetchProductsAsync.rejected, (state, action) => {
             console.log(action.payload);
             state.status = 'idle';
+      
+
         });
         builder.addCase(fetchProductAsync.pending, (state) => {
             state.status = 'pendingFetchProduct';

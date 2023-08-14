@@ -1,67 +1,62 @@
-import Catalog from '../../features/catalog/Catalog';
-import { Container, CssBaseline, Typography, createTheme } from '@mui/material';
-import Header from './Header';
-import { ThemeProvider } from '@emotion/react';
-import { pink, purple } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/ReactToastify.css';
-import { useStoreContext } from '../api/context/StoreContext';
-import { getCookie } from '../util/util';
-import agent from '../api/agent';
-import { error } from 'console';
-import LoadingComponent from './LoadingComponent';
-import { useAppDispatch } from '../store/configureStore';
-import { setBasket } from '../../features/basket/BasketSlice';
+import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import Header from "./Header";
+import 'react-toastify/dist/ReactToastify.css';
+import LoadingComponent from "./LoadingComponent";
+import { useAppDispatch } from "../store/configureStore";
+import { fetchBasketAsync } from "../../features/basket/BasketSlice";
+import { fetchCurrentUser } from "../../features/account/accountSlice";
+import HomePage from "../../features/home/HomePage";
 
 function App() {
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
-   useEffect(()=>{
-    const buyerId = getCookie('buyerId');
-    if(buyerId){
-      agent.Basket.get()
-      .then(basket => dispatch(setBasket(basket)))
-      .catch(error=> console.log(error))
-      .finally(()=>setLoading(false));
+  const initApp = useCallback(async () => {
+    try {
+      await dispatch(fetchCurrentUser());
+      await dispatch(fetchBasketAsync());
+    } catch (error) {
+      console.log(error);
     }
-    else{
-      setLoading(false)
-    }
-   },[dispatch])
-   
+  }, [dispatch]);
+
+  useEffect(() => {
+    initApp().then(() => setLoading(false));
+  }, [initApp])
+
   const [darkMode, setDarkMode] = useState(false);
-  const paletteType = darkMode ? 'dark' : 'light'
+  const palleteType = darkMode ? 'dark' : 'light';
   const theme = createTheme({
     palette: {
-      mode: paletteType,
+      mode: palleteType,
       background: {
-        default: paletteType === 'light' ? '#eaeaea' : '#121212'
+        default: (palleteType === 'light') ? '#eaeaea' : '#121212'
       }
     }
   })
 
-
-  function handleThemeChange(){
+  function handleThemeChange() {
     setDarkMode(!darkMode);
   }
 
-  if(loading) return <LoadingComponent message='Initialising app...'/>
-
   return (
-    <ThemeProvider theme={theme} >
-      <ToastContainer position='bottom-right' hideProgressBar theme="colored"/>
-    <CssBaseline/>
-     <Header darkMode={darkMode} handleThemeChange={handleThemeChange}/>
-     <Container>
-     <Outlet />
-     </Container> 
+    <ThemeProvider theme={theme}>
+      <ToastContainer position="bottom-right" hideProgressBar theme="colored" />
+      <CssBaseline />
+      <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
+      {loading ? <LoadingComponent message="Initialising app..." />
+          : location.pathname === '/' ? <HomePage />
+          : <Container sx={{mt: 4}}>
+              <Outlet />
+            </Container>
+      }
+
     </ThemeProvider>
   );
 }
 
 export default App;
-
-// Container bileşeni, responsive tasarım prensiplerini takip ederek farklı ekran boyutlarına uyum sağlar. Sayfanızın içeriği büyüdükçe veya küçüldükçe, Container bileşeni otomatik olarak uygun bir genişlikte kalır ve içeriği merkezler.

@@ -24,17 +24,16 @@ namespace API.Controllers
             _context = context;
             
         }
-
+       
         [HttpGet]
         public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery]ProductParams productParams)
-        {
+        {   
             var query = _context.Products
             .Sort(productParams.OrderBy) 
             .Search(productParams.SearchTerm)
             .Filter(productParams.Brands, productParams.Types)
             .AsQueryable();
-
-
+            
             var products = await PagedList<Product>.ToPagedList(query, productParams.PageNumber, productParams.PageSize);       
             Response.AddPaginationHeader(products.MetaData);
             return products;

@@ -31,6 +31,7 @@ export default function Catalog() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+  
     if (!productsLoaded) dispatch(fetchProductsAsync());
   }, [productsLoaded, dispatch]);
 
@@ -42,6 +43,7 @@ export default function Catalog() {
   
 
   return (
+    
     <Grid container columnSpacing={4}>
       <Grid item xs={3}>
         <Paper sx={{ mb: 2 }}>
@@ -78,7 +80,7 @@ export default function Catalog() {
        <AppPagination
           metaData={metaData}
           onPageChange={(page: number) => dispatch(setPageNumber({pageNumber: page}))} 
-          />}
+          />} 
       </Grid>
     </Grid>
   );
