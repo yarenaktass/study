@@ -19,7 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c=>{
     var jwtSecurityScheme = new OpenApiSecurityScheme{
         BearerFormat="JWT",
-        Name="Autkorization",
+        Name="Authorization",
         In=ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = JwtBearerDefaults.AuthenticationScheme,
@@ -52,7 +52,7 @@ builder.Services.AddIdentityCore<User>(opt =>
 {
     opt.User.RequireUniqueEmail=true;
 }) 
-    .AddRoles<IdentityRole>()
+    .AddRoles<Role>()
     .AddEntityFrameworkStores<StoreContext>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt => 
